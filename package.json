@@ -1,0 +1,11 @@
+{
+  "name": "supernovel-api-remake",
+  "version": "2.0.0",
+  "description": "api",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hebert Porto",
+  "license": "ISC"
+}
