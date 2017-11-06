@@ -45,7 +45,7 @@ const NovelSchema = new mongoose.Schema({
 })
 
 export function novelModel() {
-  return mongoose.model('Novem', NovelSchema)
+  return mongoose.model('Novel', NovelSchema)
 }
 
 const Novel = novelModel()
@@ -55,7 +55,11 @@ export function create(data) {
     .save()
     .then(result => result)
     .catch((err) => {
-      throw Object({ message: CREATE_NOVEL_FAILED, status: 422, payload: err })
+      throw Object({
+        message: CREATE_NOVEL_FAILED,
+        status: 422,
+        payload: err,
+      })
     })
 }
 

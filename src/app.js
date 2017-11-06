@@ -9,7 +9,8 @@ import './v1/config/db'
 import { version } from '../package.json'
 import { DEFAULT_FILE_UPLOAD_SIZE } from './v1/config/constants'
 
-// import category from './v1/services/category/'
+import apiApp from './v1/services/api/app'
+
 
 const port = process.env.PORT || 3000
 const app = express()
@@ -28,7 +29,7 @@ app.use(morgan('dev'))
 // Routes //
 app.use('/health', (req, res) => res.status(200).json({ version, dateOfBirth }))
 
-// app.use('/v1/api/categories', category)
+app.use('/v1/api/app', apiApp)
 
 app.listen(port, () => {
   console.log(`API Server on port: ${port}`)
