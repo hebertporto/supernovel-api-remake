@@ -55,10 +55,11 @@ export function create(data) {
     .save()
     .then(result => result)
     .catch((err) => {
+      console.log('error', err)
       throw Object({
         message: CREATE_NOVEL_FAILED,
         status: 422,
-        payload: err,
+        payload: err.name,
       })
     })
 }
