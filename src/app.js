@@ -6,6 +6,8 @@ import moment from 'moment'
 
 import './v1/config/db'
 
+import * as handlers from './v1/utils/handlers'
+
 import { version } from '../package.json'
 import { DEFAULT_FILE_UPLOAD_SIZE } from './v1/config/constants'
 
@@ -33,6 +35,10 @@ app.use('/health', (req, res) => res.status(200).json({ version, dateOfBirth }))
 app.use('/v1/api/app', apiApp)
 // ADMIN
 app.use('/v1/admin/novel', novelAdmin)
+
+// Error Handlers
+app.use(handlers.validationError)
+app.use(handlers.internalError)
 
 app.listen(port, () => {
   console.log(`API Server on port: ${port}`)
