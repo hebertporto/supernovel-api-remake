@@ -11,6 +11,7 @@
     "dev-win": "nodemon src/app.js --exec babel-node",
     "lint": "eslint ./src/"
   },
+  "precommit.colors": true,
   "pre-commit": [
     "lint"
   ],
