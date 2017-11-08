@@ -1,4 +1,7 @@
 import express from 'express'
+import validate from 'express-validation'
+
+import { createNovelSchema } from './schema'
 
 import {
   create,
@@ -9,7 +12,7 @@ import {
 
 const router = express.Router()
 
-router.post('/', ({ body }, res, next) => {
+router.post('/', validate(createNovelSchema), ({ body }, res, next) => {
   create(body)
     .then(payload => res.status(201).json({ payload }))
     .catch(error => next(error))
