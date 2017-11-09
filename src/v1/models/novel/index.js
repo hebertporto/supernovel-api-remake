@@ -55,7 +55,6 @@ export function create(data) {
     .save()
     .then(result => result)
     .catch((err) => {
-      console.log('error', err)
       throw Object({
         message: CREATE_NOVEL_FAILED,
         status: 422,
@@ -97,7 +96,7 @@ export function findByIdOrFindAll(novelId, currentPage) {
       Novel
         .count()
         .then(contResult => ({
-          payload: result,
+          novels: result,
           currentPage: page,
           pages: Math.ceil(contResult / perPage),
         }))

@@ -1,42 +1,42 @@
 import express from 'express'
 import validate from 'express-validation'
 
-import { createNovelSchema } from './schema'
+import { createFeatureSchema } from './schema'
 
 import {
   create,
-  findByIdOrFindAll,
+  findAll,
   remove,
   update,
-} from './../../../models/novel'
+} from './../../../models/feature'
 
 const router = express.Router()
 
-router.post('/', validate(createNovelSchema), ({ body }, res, next) => {
+router.post('/', validate(createFeatureSchema), ({ body }, res, next) => {
   create(body)
     .then(payload => res.status(201).json(payload))
     .catch(error => next(error))
 })
 
-router.get('/:novelId?', ({ params, query }, res, next) => {
-  const { novelId } = params
+router.get('/:featureId?', ({ params, query }, res, next) => {
+  const { featureId } = params
   const { currentPage } = query
-  findByIdOrFindAll(novelId, currentPage)
+  findAll(featureId, currentPage)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
 
-router.delete('/novelId', ({ params }, res, next) => {
-  const { novelId } = params
-  remove(novelId)
+router.delete('/featureId', ({ params }, res, next) => {
+  const { featureId } = params
+  remove(featureId)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
 
-router.put('/:novelId', ({ body, params }, res, next) => {
-  const { novelId } = params
+router.put('/:featureId', ({ body, params }, res, next) => {
+  const { featureId } = params
 
-  update(body, novelId)
+  update(body, featureId)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })

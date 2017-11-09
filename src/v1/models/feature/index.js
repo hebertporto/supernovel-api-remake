@@ -6,27 +6,29 @@ import {
   UPDATE_FEATURED_FAILED,
 } from './../../config/messages'
 
-const FeatureSchema = new mongoose.Schema({
-  shownSince: {
-    type: Date,
-    require: true,
+const FeatureSchema = new mongoose.Schema(
+  {
+    shownSince: {
+      type: Date,
+      require: true,
+    },
+    imagePath: {
+      type: String,
+    },
+    active: {
+      type: Boolean,
+      require: true,
+    },
+    novel: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Novel',
+      require: true,
+    },
   },
-  imagePath: {
-    type: String,
+  {
+    strict: true,
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
   },
-  active: {
-    type: Boolean,
-    require: true,
-  },
-  novel: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Novel',
-  },
-},
-{
-  strict: true,
-  timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
-},
 )
 
 export function featuredModel() {
@@ -49,7 +51,7 @@ export function create(data) {
 }
 
 export function findAll() {
-  return Feature.find({})
+  return Feature.find({ active: true })
     .then(payload => payload)
     .catch((err) => {
       throw new Error({
@@ -66,7 +68,6 @@ export function remove(featuredId) {
     .exec()
     .then(payload => payload)
     .catch((err) => {
-
       throw Object({
         message: REMOVE_FEATURED_FAILED,
         status: 422,
