@@ -8,3 +8,7 @@ export const REMOVE_CHAPTER_FAILED = 'Falha ao Remover capítulo'
 export const CREATE_NOVEL_FAILED = 'Falha ao cadastrar a Novel'
 export const UPDATE_NOVEL_FAILED = 'Falha ao Atualizar a Novel'
 export const REMOVE_NOVEL_FAILED = 'Falha ao Remover a Novel'
+
+export const CREATE_FEATURED_FAILED = 'Falha ao o Cadastrar Destaque'
+export const REMOVE_FEATURED_FAILED = 'Falha ao o Remover Destaque'
+export const UPDATE_FEATURED_FAILED = 'Falha ao o Remover Destaque'
