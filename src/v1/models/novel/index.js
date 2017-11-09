@@ -64,6 +64,17 @@ export function create(data) {
     })
 }
 
+export function findWithoutPagination() {
+  return Novel.find({})
+    .then(payload => payload)
+    .catch((err) => {
+      throw new Error({
+        payload: err,
+        code: 500,
+      })
+    })
+}
+
 export function findByIdOrFindAll(novelId, currentPage) {
   if (novelId) {
     const { ObjectId } = mongoose.Types
@@ -76,7 +87,7 @@ export function findByIdOrFindAll(novelId, currentPage) {
         })
       })
   }
-  const perPage = 2
+  const perPage = 20
   const page = currentPage || 1
 
   return Novel.find({})
@@ -86,7 +97,7 @@ export function findByIdOrFindAll(novelId, currentPage) {
       Novel
         .count()
         .then(contResult => ({
-          novels: result,
+          payload: result,
           currentPage: page,
           pages: Math.ceil(contResult / perPage),
         }))
