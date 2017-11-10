@@ -50,9 +50,92 @@ export function create(data) {
     })
 }
 
-export function findAll() {
-  return Feature.find({ active: true })
+export function findAllActive() {
+  return Feature.aggregate([
+    { $match: { active: true } },
+    {
+      $lookup: {
+        from: 'novels',
+        localField: 'novel',
+        foreignField: '_id',
+        as: 'novel',
+      },
+    },
+    {
+      $project: {
+        shownSince: 1,
+        imagePath: 1,
+        novel: {
+          _id: 1,
+          name: 1,
+          cover_url: 1,
+        },
+      },
+    },
+  ])
     .then(payload => payload)
+    .catch((err) => {
+      throw new Error({
+        payload: err,
+        code: 500,
+      })
+    })
+}
+
+export function findByIdOrFindAll(featuredId, currentPage) {
+  if (featuredId) {
+    const { ObjectId } = mongoose.Types
+    return Feature.findById(ObjectId(featuredId))
+      .then(result => result)
+      .catch((err) => {
+        throw new Error({
+          payload: err,
+          code: 500,
+        })
+      })
+  }
+  const perPage = 20
+  const page = currentPage || 1
+
+  return Feature.aggregate([
+    { $match: { active: true } },
+    {
+      $lookup: {
+        from: 'novels',
+        localField: 'novel',
+        foreignField: '_id',
+        as: 'novel',
+      },
+    },
+    {
+      $project: {
+        shownSince: 1,
+        imagePath: 1,
+        novel: {
+          _id: 1,
+          name: 1,
+          cover_url: 1,
+        },
+      },
+    },
+  ])
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
+    .then(result => (
+      Feature
+        .count()
+        .then(contResult => ({
+          novels: result,
+          currentPage: page,
+          pages: Math.ceil(contResult / perPage),
+        }))
+        .catch((err) => {
+          throw new Error({
+            payload: err,
+            code: 500,
+          })
+        })
+    ))
     .catch((err) => {
       throw new Error({
         payload: err,

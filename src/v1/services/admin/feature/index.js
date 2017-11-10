@@ -5,7 +5,7 @@ import { createFeatureSchema } from './schema'
 
 import {
   create,
-  findAll,
+  findByIdOrFindAll,
   remove,
   update,
 } from './../../../models/feature'
@@ -21,7 +21,7 @@ router.post('/', validate(createFeatureSchema), ({ body }, res, next) => {
 router.get('/:featureId?', ({ params, query }, res, next) => {
   const { featureId } = params
   const { currentPage } = query
-  findAll(featureId, currentPage)
+  findByIdOrFindAll(featureId, currentPage)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
