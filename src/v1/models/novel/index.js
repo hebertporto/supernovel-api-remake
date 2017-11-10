@@ -89,7 +89,32 @@ export function findByIdOrFindAll(novelId, currentPage) {
   const perPage = 20
   const page = currentPage || 1
 
-  return Novel.find({})
+  return Novel.aggregate([
+    {
+      $lookup: {
+        from: 'chapters',
+        localField: '_id',
+        foreignField: 'novel',
+        as: 'chapters',
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        lastChapter: {
+          $slice: ['$chapters', -1],
+        },
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        lastChapter: {
+          title: 1,
+        },
+      },
+    },
+  ])
     .skip((perPage * page) - perPage)
     .limit(perPage)
     .then(result => (
