@@ -84,6 +84,40 @@ export function findByIdOrFindAll(chapterId, currentPage) {
     })
 }
 
+export function findByChapterId(chapterId) {
+  const { ObjectId } = mongoose.Types
+  return Chapter.findById(ObjectId(chapterId))
+    .then(result => result)
+    .catch((err) => {
+      throw new Error({ payload: err, code: 500 })
+    })
+}
+
+export function findByNovel(novelId, currentPage) {
+  const perPage = 10
+  const page = currentPage || 1
+  const { ObjectId } = mongoose.Types
+
+  return Chapter.find({ novel: ObjectId(novelId) })
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
+    .then(result => (
+      Chapter
+        .count()
+        .then(contResult => ({
+          chapters: result,
+          currentPage: page,
+          pages: Math.ceil(contResult / perPage),
+        }))
+        .catch((err) => {
+          throw new Error({ payload: err, code: 500 })
+        })
+    ))
+    .catch((err) => {
+      throw new Error({ payload: err, code: 500 })
+    })
+}
+
 export function remove(chapterId) {
   const { ObjectId } = mongoose.Types
 

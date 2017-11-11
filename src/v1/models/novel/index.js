@@ -109,8 +109,14 @@ export function findByIdOrFindAll(novelId, currentPage) {
     {
       $project: {
         name: 1,
+        cover_url: 1,
+        description: 1,
+        translation_team: 1,
+        author: 1,
         lastChapter: {
           title: 1,
+          _id: 1,
+          number: 1,
         },
       },
     },
