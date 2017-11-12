@@ -27,17 +27,17 @@ router.get('/:novelId?', ({ params, query }, res, next) => {
     .catch(error => next(error))
 })
 
-router.delete('/novelId', ({ params }, res, next) => {
+router.delete('/:novelId', ({ params }, res, next) => {
   const { novelId } = params
   remove(novelId)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
 
-router.put('/:novelId', ({ body, params }, res, next) => {
+router.put('/:novelId', upload.single('file'), ({ body, params, file }, res, next) => {
   const { novelId } = params
 
-  update(body, novelId)
+  update(body, novelId, file)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })

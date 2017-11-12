@@ -211,7 +211,7 @@ export function update(data, novelId, image) {
       .then((result) => {
         const novelWithImage = data
         novelWithImage.cover_url = result.secure_url
-        return updateNovel(novelWithImage)
+        return updateNovel(novelWithImage, novelId)
       })
       .catch((err) => {
         if (err) {
