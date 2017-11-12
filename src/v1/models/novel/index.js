@@ -1,10 +1,14 @@
+import Datauri from 'datauri'
+import path from 'path'
+import { serviceCloudinary } from './../../utils/upload'
 import mongoose from './../../config/db'
-
 import {
   CREATE_NOVEL_FAILED,
   REMOVE_NOVEL_FAILED,
   UPDATE_NOVEL_FAILED,
 } from './../../config/messages'
+
+const dUri = new Datauri()
 
 const NovelSchema = new mongoose.Schema({
   name: {
@@ -50,7 +54,7 @@ export function novelModel() {
 
 const Novel = novelModel()
 
-export function create(data) {
+function createNovel(data) {
   return new Novel(data)
     .save()
     .then(result => result)
@@ -61,6 +65,45 @@ export function create(data) {
         payload: err.name,
       })
     })
+}
+
+function updateNovel(data, novelId) {
+  const { ObjectId } = mongoose.Types
+  return Novel.findOneAndUpdate(
+    { _id: ObjectId(novelId) },
+    { $set: data },
+    { new: true },
+  )
+    .then(payload => payload)
+    .catch((err) => {
+      throw new Error({
+        message: UPDATE_NOVEL_FAILED,
+        status: 422,
+        payload: err,
+      })
+    })
+}
+
+export function create(data, image) {
+  if (image) {
+    dUri.format(path.extname(image.originalname).toString(), image.buffer)
+    return serviceCloudinary.uploader.upload(dUri.content)
+      .then((result) => {
+        const novelWithImage = data
+        novelWithImage.cover_url = result.secure_url
+        return createNovel(novelWithImage)
+      })
+      .catch((err) => {
+        if (err) {
+          throw Object({
+            message: CREATE_NOVEL_FAILED,
+            status: 422,
+            payload: err.name,
+          })
+        }
+      })
+  }
+  return createNovel(data)
 }
 
 export function findWithoutPagination() {
@@ -161,20 +204,24 @@ export function remove(novelId) {
     })
 }
 
-export function update(body, novelId) {
-  const { ObjectId } = mongoose.Types
-
-  return Novel.findOneAndUpdate(
-    { _id: ObjectId(novelId) },
-    { $set: body },
-    { new: true },
-  )
-    .then(payload => payload)
-    .catch((err) => {
-      throw new Error({
-        message: UPDATE_NOVEL_FAILED,
-        status: 422,
-        payload: err,
+export function update(data, novelId, image) {
+  if (image) {
+    dUri.format(path.extname(image.originalname).toString(), image.buffer)
+    return serviceCloudinary.uploader.upload(dUri.content)
+      .then((result) => {
+        const novelWithImage = data
+        novelWithImage.cover_url = result.secure_url
+        return updateNovel(novelWithImage)
       })
-    })
+      .catch((err) => {
+        if (err) {
+          throw Object({
+            message: UPDATE_NOVEL_FAILED,
+            status: 422,
+            payload: err.name,
+          })
+        }
+      })
+  }
+  return updateNovel(data, novelId)
 }

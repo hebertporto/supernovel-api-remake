@@ -8,6 +8,7 @@ export const createNovelSchema = {
     translation_team: Joi.string().required(),
     cover_url: Joi.string(),
     user: Joi.string(),
+    file: Joi.binary(),
   },
   options: {
     allowUnknownBody: false,

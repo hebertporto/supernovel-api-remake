@@ -1,5 +1,6 @@
 import express from 'express'
 import validate from 'express-validation'
+import { upload } from './../../../utils/upload'
 
 import { createNovelSchema } from './schema'
 
@@ -12,8 +13,8 @@ import {
 
 const router = express.Router()
 
-router.post('/', validate(createNovelSchema), ({ body }, res, next) => {
-  create(body)
+router.post('/', upload.single('file'), validate(createNovelSchema), ({ body, file }, res, next) => {
+  create(body, file)
     .then(payload => res.status(201).json(payload))
     .catch(error => next(error))
 })

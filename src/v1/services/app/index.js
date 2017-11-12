@@ -19,7 +19,7 @@ router.get('/novels/:novelId?', ({ params, query }, res, next) => {
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
-
+// TODO - get last chaptar - by number  //
 router.get('/chapters/byNovel/:novelId', ({ params }, res, next) => {
   const { novelId } = params
   findByNovel(novelId)
