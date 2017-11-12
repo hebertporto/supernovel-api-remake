@@ -12,3 +12,6 @@ export const REMOVE_NOVEL_FAILED = 'Falha ao Remover a Novel'
 export const CREATE_FEATURED_FAILED = 'Falha ao o Cadastrar Destaque'
 export const REMOVE_FEATURED_FAILED = 'Falha ao o Remover Destaque'
 export const UPDATE_FEATURED_FAILED = 'Falha ao o Remover Destaque'
+
+export const LOGIN_FAILED = 'Email ou senha incorreto'
+export const UPDATE_USER_FAILED = 'Falha ao Atualizar dados do Usuário'
