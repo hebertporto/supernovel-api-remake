@@ -141,25 +141,18 @@ export function findByIdOrFindAll(novelId, currentPage) {
         as: 'chapters',
       },
     },
-    {
-      $project: {
-        name: 1,
-        lastChapter: {
-          $slice: ['$chapters', -1],
-        },
-      },
-    },
+    { $unwind: '$chapters' },
+    { $sort: { 'chapters.number': -1 } },
     {
       $project: {
         name: 1,
         cover_url: 1,
-        description: 1,
         translation_team: 1,
         author: 1,
-        lastChapter: {
-          title: 1,
-          _id: 1,
+        chapters: {
           number: 1,
+          title: 1,
+          created_at: 1,
         },
       },
     },
