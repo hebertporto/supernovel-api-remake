@@ -1,5 +1,6 @@
 import express from 'express'
 import validate from 'express-validation'
+import { upload } from './../../../utils/upload'
 
 import { createFeatureSchema } from './schema'
 
@@ -12,7 +13,7 @@ import {
 
 const router = express.Router()
 
-router.post('/', validate(createFeatureSchema), ({ body }, res, next) => {
+router.post('/', upload.single('file'), validate(createFeatureSchema), ({ body }, res, next) => {
   create(body)
     .then(payload => res.status(201).json(payload))
     .catch(error => next(error))
@@ -33,7 +34,7 @@ router.delete('/featureId', ({ params }, res, next) => {
     .catch(error => next(error))
 })
 
-router.put('/:featureId', ({ body, params }, res, next) => {
+router.put('/:featureId', upload.single('file'), ({ body, params }, res, next) => {
   const { featureId } = params
 
   update(body, featureId)

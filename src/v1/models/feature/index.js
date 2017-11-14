@@ -1,10 +1,16 @@
+import Datauri from 'datauri'
+import path from 'path'
+
 import mongoose from './../../config/db'
+import { serviceCloudinary } from './../../utils/upload'
 
 import {
   CREATE_FEATURED_FAILED,
   REMOVE_FEATURED_FAILED,
   UPDATE_FEATURED_FAILED,
 } from './../../config/messages'
+
+const dUri = new Datauri()
 
 const FeatureSchema = new mongoose.Schema(
   {
@@ -37,7 +43,7 @@ export function featuredModel() {
 
 const Feature = featuredModel()
 
-export function create(data) {
+function createFeatured(data) {
   return new Feature(data)
     .save()
     .then(result => result)
@@ -48,6 +54,28 @@ export function create(data) {
         payload: err.name,
       })
     })
+}
+
+export function create(data, image) {
+  if (image) {
+    dUri.format(path.extname(image.originalname).toString(), image.buffer)
+    return serviceCloudinary.uploader.upload(dUri.content)
+      .then((result) => {
+        const featuredlWithImage = data
+        featuredlWithImage.imagePath = result.secure_url
+        return createFeatured(featuredlWithImage)
+      })
+      .catch((err) => {
+        if (err) {
+          throw Object({
+            message: CREATE_FEATURED_FAILED,
+            status: 422,
+            payload: err.name,
+          })
+        }
+      })
+  }
+  return createFeatured(data)
 }
 
 export function findAllActive() {
@@ -159,7 +187,7 @@ export function remove(featuredId) {
     })
 }
 
-export function update(body, featuredId) {
+function updateFeatured(body, featuredId) {
   const { ObjectId } = mongoose.Types
 
   return Feature.findOneAndUpdate(
@@ -175,4 +203,26 @@ export function update(body, featuredId) {
         payload: err,
       })
     })
+}
+
+export function update(data, novelId, image) {
+  if (image) {
+    dUri.format(path.extname(image.originalname).toString(), image.buffer)
+    return serviceCloudinary.uploader.upload(dUri.content)
+      .then((result) => {
+        const featureWithImage = data
+        featureWithImage.cover_url = result.secure_url
+        return updateFeatured(featureWithImage, novelId)
+      })
+      .catch((err) => {
+        if (err) {
+          throw Object({
+            message: UPDATE_FEATURED_FAILED,
+            status: 422,
+            payload: err.name,
+          })
+        }
+      })
+  }
+  return updateFeatured(data, novelId)
 }
