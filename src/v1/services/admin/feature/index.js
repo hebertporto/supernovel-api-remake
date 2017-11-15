@@ -13,8 +13,8 @@ import {
 
 const router = express.Router()
 
-router.post('/', upload.single('file'), validate(createFeatureSchema), ({ body }, res, next) => {
-  create(body)
+router.post('/', upload.single('file'), validate(createFeatureSchema), ({ body, file }, res, next) => {
+  create(body, file)
     .then(payload => res.status(201).json(payload))
     .catch(error => next(error))
 })
@@ -27,17 +27,16 @@ router.get('/:featureId?', ({ params, query }, res, next) => {
     .catch(error => next(error))
 })
 
-router.delete('/featureId', ({ params }, res, next) => {
+router.delete('/:featureId', ({ params }, res, next) => {
   const { featureId } = params
   remove(featureId)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
 
-router.put('/:featureId', upload.single('file'), ({ body, params }, res, next) => {
+router.put('/:featureId', upload.single('file'), ({ body, params, file }, res, next) => {
   const { featureId } = params
-
-  update(body, featureId)
+  update(body, featureId, file)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })

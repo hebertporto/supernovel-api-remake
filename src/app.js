@@ -14,7 +14,9 @@ import { DEFAULT_FILE_UPLOAD_SIZE } from './v1/config/constants'
 import { decodeJWT, hydrateUser } from './v1/config/jwt'
 
 import apiApp from './v1/services/app'
+// Admin //
 import novelAdmin from './v1/services/admin/novel'
+import chapterAdmin from './v1/services/admin/chapter'
 import featureAdmin from './v1/services/admin/feature'
 import userAdmin from './v1/services/admin/user'
 import authAdmin from './v1/services/admin/authentication'
@@ -53,6 +55,7 @@ app.use('/v1/api/app', apiApp)
 app.use('/v1/api/admin/user', userAdmin)
 app.use('/v1/api/admin/auth', authAdmin)
 app.use('/v1/api/admin/novel', novelAdmin)
+app.use('/v1/api/admin/chapter', chapterAdmin)
 app.use('/v1/api/admin/featured', featureAdmin)
 
 // Error Handlers

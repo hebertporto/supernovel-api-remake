@@ -8,6 +8,7 @@ import {
   findByIdOrFindAll,
   remove,
   update,
+  findByNovel,
 } from './../../../models/chapter'
 
 const router = express.Router()
@@ -21,6 +22,14 @@ router.post('/', validate(createChapterSchema), ({ body }, res, next) => {
 router.get('/:chapterId?', ({ params }, res, next) => {
   const { chapterId } = params
   findByIdOrFindAll(chapterId)
+    .then(payload => res.status(200).json(payload))
+    .catch(error => next(error))
+})
+
+router.get('/byNovel/:novelId', ({ params, query }, res, next) => {
+  const { novelId } = params
+  const { currentPage } = query
+  findByNovel(novelId, currentPage)
     .then(payload => res.status(200).json(payload))
     .catch(error => next(error))
 })
