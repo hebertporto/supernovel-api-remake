@@ -148,10 +148,10 @@ app.use((0, _cors2.default)());
 app.use((0, _morgan2.default)('dev'));
 
 // Routes //
-app.use('/', function (req, res) {
-  return res.status(200);
+app.get('/', function (req, res) {
+  return res.status(200).json({});
 });
-app.use('/health', function (req, res) {
+app.get('/health', function (req, res) {
   return res.status(200).json({ version: version, dateOfBirth: dateOfBirth });
 });
 

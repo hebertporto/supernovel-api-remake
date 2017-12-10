@@ -44,8 +44,8 @@ app.use(cors())
 app.use(morgan('dev'))
 
 // Routes //
-app.use('/', (req, res) => res.status(200))
-app.use('/health', (req, res) => res.status(200).json({ version, dateOfBirth }))
+app.get('/', (req, res) => res.status(200).json({}))
+app.get('/health', (req, res) => res.status(200).json({ version, dateOfBirth }))
 
 app.use(decodeJWT.unless(unless))
 app.use(hydrateUser.unless(unless))
