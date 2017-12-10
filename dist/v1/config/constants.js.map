@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/v1/config/constants.js"],"names":["DEFAULT_FILE_UPLOAD_SIZE"],"mappings":";;;;;AAAA;AACO,IAAMA,8DAA2B,KAAjC","file":"constants.js","sourcesContent":["/* eslint-disable import/prefer-default-export */\nexport const DEFAULT_FILE_UPLOAD_SIZE = '1mb'\n"]}

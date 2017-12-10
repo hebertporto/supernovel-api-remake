@@ -6,8 +6,9 @@
   "author": "Hebert Porto <hebertporto@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "start": "npm run build && nodemon dist/app.js",
-    "build": "./node_modules/.bin/babel src --out-dir dist --source-maps",
+    "clean": "rimraf client/dist",
+    "build": "yarn run clean && ./node_modules/.bin/babel src --out-dir dist",
+    "start": "nodemon dist/app.js",
     "dev-win": "nodemon src/app.js --exec babel-node",
     "lint": "eslint ./src/"
   },
@@ -32,10 +33,10 @@
     "mongoose": "^4.12.4",
     "morgan": "^1.9.0",
     "multer": "^1.3.0",
+    "nodemon": "^1.12.5",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "path": "^0.12.7",
-    "nodemon": "^1.12.5",
     "stringify-object": "^3.2.1"
   },
   "devDependencies": {
@@ -59,6 +60,7 @@
     "eslint-plugin-react": "^7.4.0",
     "mocha": "^4.0.1",
     "pre-commit": "^1.2.2",
+    "rimraf": "^2.6.2",
     "supertest": "^3.0.0"
   }
 }
