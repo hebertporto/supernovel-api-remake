@@ -100,30 +100,6 @@ var _name$version$descrip = {
     'passport-jwt': '^3.0.1',
     path: '^0.12.7',
     'stringify-object': '^3.2.1'
-  },
-  devDependencies: {
-    'babel-cli': '^6.26.0',
-    'babel-core': '^6.26.0',
-    'babel-eslint': '^8.0.1',
-    'babel-loader': '^7.1.2',
-    'babel-plugin-inline-json-import': '^0.2.1',
-    'babel-plugin-transform-async-to-generator': '^6.24.1',
-    'babel-plugin-transform-runtime': '^6.23.0',
-    'babel-preset-es2015': '^6.24.1',
-    'babel-preset-stage-0': '^6.24.1',
-    'babel-register': '^6.26.0',
-    'babel-runtime': '^6.26.0',
-    chai: '^4.1.2',
-    'cross-env': '^5.1.1',
-    eslint: '^4.10.0',
-    'eslint-config-airbnb': '^16.1.0',
-    'eslint-plugin-import': '^2.8.0',
-    'eslint-plugin-jsx-a11y': '^6.0.2',
-    'eslint-plugin-react': '^7.4.0',
-    mocha: '^4.0.1',
-    'pre-commit': '^1.2.2',
-    rimraf: '^2.6.2',
-    supertest: '^3.0.0'
   }
 };
 var version = _name$version$descrip.version;
