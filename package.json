@@ -6,7 +6,7 @@
   "author": "Hebert Porto <hebertporto@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon dist/app.js",
+    "start": "npm run build && nodemon dist/app.js",
     "build": "./node_modules/.bin/babel src --out-dir dist --source-maps",
     "dev-win": "nodemon src/app.js --exec babel-node",
     "lint": "eslint ./src/"
