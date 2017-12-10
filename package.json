@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rimraf client/dist",
     "build": "yarn run clean && ./node_modules/.bin/babel src --out-dir dist",
-    "start": "nodemon dist/app.js",
+    "start": "node src/app.js",
     "dev-win": "nodemon src/app.js --exec babel-node",
     "lint": "eslint ./src/"
   },
