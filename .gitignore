@@ -4,3 +4,4 @@ node_modules/
 *.log
 instructions.json
 .env
+/src/v1/config/secrets/*.*

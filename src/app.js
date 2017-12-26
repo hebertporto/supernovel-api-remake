@@ -5,13 +5,14 @@ import bodyParser from 'body-parser'
 import moment from 'moment'
 
 import './v1/config/db'
+import './v1/config/firebase'
 
 import * as handlers from './v1/utils/handlers'
 
 import { version } from '../package.json'
 import { DEFAULT_FILE_UPLOAD_SIZE } from './v1/config/constants'
 
-import { decodeJWT, hydrateUser } from './v1/config/jwt'
+import { decodeJWT } from './v1/config/jwt'
 
 import apiApp from './v1/services/app'
 // Admin //
@@ -21,7 +22,7 @@ import featureAdmin from './v1/services/admin/feature'
 import userAdmin from './v1/services/admin/user'
 import authAdmin from './v1/services/admin/authentication'
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 9001
 const app = express()
 
 const unless = {
@@ -48,7 +49,7 @@ app.get('/', (req, res) => res.status(200).json({}))
 app.get('/health', (req, res) => res.status(200).json({ version, dateOfBirth }))
 
 app.use(decodeJWT.unless(unless))
-app.use(hydrateUser.unless(unless))
+// app.use(hydrateUser.unless(unless))
 
 // APP
 app.use('/v1/api/app', apiApp)

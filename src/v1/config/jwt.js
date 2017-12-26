@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken'
-import expressjwt from 'express-jwt'
 import unless from 'express-unless'
+import * as firebaseMiddleware from 'express-firebase-middleware'
 
-import * as Admin from './../models/user'
+import * as User from './../models/user'
 
 const secret = process.env.SECRET || 'secret'
-export const decodeJWT = expressjwt({ secret, credentialsRequired: false })
+
+export const decodeJWT = firebaseMiddleware.auth
 
 decodeJWT.unless = unless
 
@@ -21,7 +22,7 @@ export async function hydrateUser(req, res, next) {
     const { _id } = req.user
 
     // Search for an user
-    const user = await Admin.getUserById(_id)
+    const user = await User.getUserById(_id)
     if (user) {
       return next()
     }
